@@ -1,0 +1,61 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- SEO -->
+    <meta name="description" content="CPIC Travel is the official flights and travel management system for the Christian Polytechnic Institute of Catanduanes.">
+    <meta name="keywords" content="virac, CPIC, Christian Polytechnic Institute of Catanduanes, CPICTravel, cpic-travel.heroku.com, cpic-travel, travel">
+    <meta name="author" content="Arnel Jan Sarmiento">
+    
+    <meta property="og:title" content="CPIC Travel">
+    <meta property="og:description" content="CPIC Travel is the official flights and travel management system for the Christian Polytechnic Institute of Catanduanes.">
+    <meta property="og:type" content="website">
+
+    <meta name="google-site-verification" content="uGL2QJWFkQOuE4tTphFQK3T22IAkXbDjTzULH6TzbVQ" />
+    <meta name="msvalidate.01" content="2751098384C18FDBDC12FB95F05B7DAF" />
+
+    {% comment %} <link rel="icon" href="{% static '/favicon/favicon.ico' %}"> {% endcomment %}
+    <link rel="icon" type="image/png" href="{% static 'images/icon.png' %}"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://kit.fontawesome.com/cda8e305d5.js" crossorigin="anonymous"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}">
+
+    <title>Django App</title>
+
+    {% block ExtraCss %} {% endblock ExtraCss %}
+
+</head>
+
+<body>
+    {% include 'template_parts/navbar.html' %}
+
+    <main style="min-height: 50vh;">
+
+        {% for message in messages %}
+            <div class="alert alert-warning alert-dismissible fade show mx-4 my-2" role="alert">
+                {{message}}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        {% endfor %}
+
+        {% block content %} 
+        
+        {% endblock content %}
+    </main>
+
+    {% include 'template_parts/footer.html' %}
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    <script src="js/index.js"></script>
+    
+
+    {% block ExtraJs %} {% endblock ExtraJs %}
+</body>
+
+</html>

@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+
+{% block ExtraCss %}
+{% endblock ExtraCss %}
+
+{% block content %}
+
+<section class="profile-information card shadow-sm my-5 m-auto" style="max-width: 700px;">
+  <div class="p-3">
+      <form action="." method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+
+          <div>
+              <h3 class="title">
+                Subscription Information
+              </h3>
+              
+              {% if request.user.get_active_subscriptions %}
+                <div>
+                  <h5>{{ request.user.get_active_subscriptions.0.plan.product.name }}</h5>
+                  <p>Valid till: {{ request.user.get_active_subscriptions.0.current_period_end }}</p>
+                  
+                  <div class="d-flex">
+                    <a href="{% url 'ChangeSubscriptionView' %}" class="btn btn-success my-2 me-2">
+                      Change
+                    </a>
+                    <a href="{% url 'CancelSubscriptionView' %}" class="btn btn-danger my-2">
+                      Cancel
+                    </a>
+                  </div>
+                </div>
+              {% else %}
+                <div>
+                  <h5>No active subscription</h5>
+                </div>
+              {% endif %}
+          </div>
+
+
+          <div>
+              <h3 class="title">
+                Profile Information
+              </h3>
+          </div>
+
+          <div class="lead">
+              <p>Personal Details</p>
+          </div>
+          
+            {{u_form|crispy}}
+
+            <div class="d-flex justify-content-between align-items-center">
+              <a href="{% url 'users:ChangePasswordView' %}">Change Password</a>
+              <button id="change" class="btn btn-primary" type="submit">Update</button>
+            </div>
+      </form>
+  </div>
+</section>
+
+{% endblock content %}
+
+
+
+{% block ExtraJs %}
+{% endblock ExtraJs %}

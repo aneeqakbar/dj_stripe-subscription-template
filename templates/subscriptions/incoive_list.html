@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+{% load django_template_maths %}
+
+{% block content %}
+
+<div class="row m-4">
+  <div class="col-12">
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Invoice Id</th>
+          <th scope="col">Customer Id</th>
+          <th scope="col">Amount</th>
+          <th scope="col">Paid At</th>
+          <th scope="col"></th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for invoice in invoices.data %}
+          <tr>
+            <th scope="row">{{ forloop.counter }}</th>
+            <td>{{ invoice.id }}</td>
+            <td>{{ invoice.customer }}</td>
+            <td>{{ invoice.total|div:100 }} {{ invoice.currency|upper }}</td>
+            <td class="date-col">{{ invoice.status_transitions.paid_at }}</td>
+            <td>
+              <a href="{{ invoice.invoice_pdf }}" class="btn btn-warning btn-sm" target="_blank">
+                Download
+              </a>
+            </td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+
+{% endblock content %}
+
+{% block ExtraJs %}
+<script>
+  const dateCols = document.querySelectorAll(".table .date-col");
+  dateCols.forEach(col => {
+    const timestamp = col.innerText;
+    const date = new Date(Number(timestamp) * 1000);
+    col.innerText = `${date.toLocaleString()}`
+  })
+</script>
+{% endblock ExtraJs %}

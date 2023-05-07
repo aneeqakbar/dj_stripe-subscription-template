@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<article class="container">
+  <div class="row my-5">
+    {% for plan in plans %}
+      <div class="col-4">
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">{{ plan.product.name }}</h5>
+            <p class="card-text">
+              {{ plan.product.description }}
+              <br>
+              {{ plan.amount }}$/{{ plan.interval }}
+            </p>
+            <button class="btn btn-primary" data-id="{{ plan.id }}" onclick="handleSelectPlan(this)">Choose</button>
+          </div>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+</article>
+{% endblock content %}
+
+{% block ExtraJs %}
+<script>
+
+  const isAuthenticated = "{{ request.user.is_authenticated }}" === "True";
+
+  function handleSelectPlan(button) {
+    const planId = button.getAttribute("data-id");
+    localStorage.setItem("selectedPlan", planId);
+    setCookie("selectedPlan", planId);
+    if (isAuthenticated) {
+      window.location.href = "{% url 'CreateCheckoutSession' %}"
+    } else {
+      window.location.href = "{% url 'users:RegisterView' %}"
+    }
+  }
+</script>
+
+<script>
+  function setCookie(name,value,days) {
+    var expires = "";
+    if (days) {
+        var date = new Date();
+        date.setTime(date.getTime() + (days*24*60*60*1000));
+        expires = "; expires=" + date.toUTCString();
+    }
+    document.cookie = name + "=" + (value || "")  + expires + "; path=/";
+  }
+  function getCookie(name) {
+      var nameEQ = name + "=";
+      var ca = document.cookie.split(';');
+      for(var i=0;i < ca.length;i++) {
+          var c = ca[i];
+          while (c.charAt(0)==' ') c = c.substring(1,c.length);
+          if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length,c.length);
+      }
+      return null;
+  }
+</script>
+{% endblock ExtraJs %}

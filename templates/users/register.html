@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% block content %}
+
+<div class="center-wrapper">
+  <div class="card shadow-sm w-100 m-auto" style="max-width: 700px;">
+    <form method="POST">
+      {% csrf_token %}
+      <legend class="border-bottom p-3">Join today!</legend>
+      <div class="form-group px-3">
+        {{ form|crispy }}
+        <button class="btn btn-primary my-2" type="submit">Sign Up</button>
+      </div>
+      <div class="border-top p-3">
+        <small class="text-muted">
+          Already have an account ? <a class="ml-2" href="{% url 'users:LoginView' %}">Sign In</a>
+        </small>
+      </div>
+    </form>
+  </div>
+</div>
+
+{% endblock content %}
